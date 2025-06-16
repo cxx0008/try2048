@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Try2048 - Play the Ultimate Racing Challenge Online | Free Browser Game</title>
+    <meta name="description" content="Experience Try2048, an exhilarating 3D racing game directly in your browser. No downloads required. Challenge yourself with stunning graphics and addictive gameplay.">
+    <meta name="keywords" content="try2048, online game, browser game, racing game, 3D game, free game, HTML5 game">
+    <meta name="author" content="Try2048 Online">
+    <link rel="canonical" href="https://try2048.online/">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Try2048 - Play Online Now">
+    <meta property="og:description" content="Experience the thrill of Try2048 - a cutting-edge 3D racing game playable directly in your browser.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://try2048.online/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f9fafb;
+            color: #111827;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(to right, #007AFF, #5856D6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #6b7280;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #111827;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(to bottom, #f9fafb, #ffffff);
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #007AFF, #5856D6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            max-width: 48rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .play-button {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background-color: #1d4ed8;
+            transform: scale(1.05);
+        }
+
+        /* Section Base */
+        section {
+            padding: 4rem 1rem;
+        }
+
+        .bg-white {
+            background-color: #ffffff;
+        }
+
+        .bg-gray {
+            background-color: #f9fafb;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #111827;
+        }
+
+        /* Game Container */
+        .game-section {
+            max-width: 1152px;
+            margin: 0 auto;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .game-wrapper {
+            background: #f3f4f6;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-wrapper h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #374151;
+            text-align: center;
+        }
+
+        .game-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            border-radius: 12px;
+        }
+
+        .game-controls {
+            text-align: center;
+            color: #6b7280;
+            margin-top: 1rem;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 64rem;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #111827;
+        }
+
+        .card p {
+            color: #6b7280;
+            line-height: 1.75;
+        }
+
+        .card ul {
+            list-style: none;
+            color: #6b7280;
+        }
+
+        .card li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .card li::before {
+            content: "•";
+            color: #2563eb;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 1152px;
+            margin: 0 auto;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-lightning {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        }
+
+        .icon-mobile {
+            background: linear-gradient(135deg, #10b981, #14b8a6);
+        }
+
+        .icon-free {
+            background: linear-gradient(135deg, #f97316, #ef4444);
+        }
+
+        .feature-icon svg {
+            width: 40px;
+            height: 40px;
+            color: white;
+        }
+
+        .feature h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature p {
+            color: #6b7280;
+        }
+
+        /* Technical Section */
+        .tech-content {
+            max-width: 64rem;
+            margin: 0 auto;
+        }
+
+        .tech-card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #111827;
+            color: #ffffff;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+        }
+
+        .footer-note {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+            }
+
+            h1 {
+                font-size: 3.75rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 2.5rem;
+                margin-bottom: 3rem;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .tech-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                padding: 0 2rem;
+            }
+
+            h1 {
+                font-size: 4.5rem;
+            }
+
+            h2 {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <div class="logo">Try2048</div>
+            <div class="nav-links">
+                <a href="#game">Play Now</a>
+                <a href="#about">About</a>
+                <a href="#features">Features</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Try2048 Online Game</h1>
+            <p class="hero-subtitle">
+                Experience the thrill of high-speed racing in this futuristic 3D game - no downloads required!
+            </p>
+            <a href="#game" class="play-button">Play Now</a>
+        </div>
+    </section>
+
+    <!-- Game Section -->
+    <section id="game" class="bg-white">
+        <div class="game-section">
+            <h2>Play Try2048 Online</h2>
+            
+            <!-- Game Notice -->
+            <div style="background-color: #e0f2fe; border: 1px solid #0284c7; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 2rem;">
+                <h3 style="color: #075985; margin: 0 0 0.5rem 0; font-size: 1.125rem;">How to Play HexGL Racing</h3>
+                <ul style="color: #0c4a6e; margin: 0; padding-left: 1.5rem; list-style-type: disc;">
+                    <li>Wait for the game to load completely (you'll see a futuristic menu)</li>
+                    <li>Click "Start" or press Enter to begin racing</li>
+                    <li>Use Arrow Keys or WASD to control your spacecraft</li>
+                    <li>If the game redirects to GitHub, use the alternative mirror below</li>
+                    <li>For best experience, click the fullscreen button or press F</li>
+                </ul>
+                <p style="color: #075985; margin: 0.75rem 0 0 0; font-style: italic;">
+                    <strong>Note:</strong> Some browsers may block iframe gaming. If you experience issues, 
+                    <a href="http://hexgl.bkcore.com/play/" target="_blank" style="color: #0284c7; text-decoration: underline;">open the game in a new tab</a>.
+                </p>
+            </div>
+            
+            <div class="games-grid">
+                <!-- Game 1 -->
+                <div class="game-wrapper">
+                    <h3>Main Game Arena - HexGL Racing</h3>
+                    <div class="game-container" id="game1-container">
+                        <iframe 
+                            src="http://hexgl.bkcore.com/play/" 
+                            title="Try2048 Online Game - HexGL Racing"
+                            loading="lazy"
+                            allowfullscreen
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            frameborder="0">
+                        </iframe>
+                    </div>
+                    <p class="game-controls">
+                        <strong>Controls:</strong> Arrow Keys (↑↓←→) or WASD to steer | Space for boost | F for fullscreen
+                    </p>
+                </div>
+
+                <!-- Game 2 - Alternative Mirror -->
+                <div class="game-wrapper">
+                    <h3>Alternative Game Mirror</h3>
+                    <div class="game-container" id="game2-container">
+                        <iframe 
+                            src="https://www.bekenet.com/bekenetgames/HexGLmaster/" 
+                            title="Try2048 Online Game - Alternative Mirror"
+                            loading="lazy"
+                            allowfullscreen
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            frameborder="0">
+                        </iframe>
+                    </div>
+                    <p class="game-controls">
+                        <strong>Alternative mirror:</strong> Use this if the main game has loading issues
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="bg-gray">
+        <div class="container">
+            <h2>About Try2048</h2>
+            <div class="about-grid">
+                <div class="card">
+                    <h3>Game Overview</h3>
+                    <p>
+                        Try2048 is an immersive 3D racing experience that pushes the boundaries of browser-based gaming. 
+                        With stunning graphics, smooth performance, and intuitive controls, it delivers an adrenaline-pumping 
+                        adventure without requiring any downloads or installations.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>How to Play</h3>
+                    <ul>
+                        <li>Use arrow keys or WASD to steer your vehicle</li>
+                        <li>Navigate through challenging tracks at high speeds</li>
+                        <li>Avoid obstacles and stay on track to achieve the best times</li>
+                        <li>Press F for an immersive fullscreen experience</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="bg-white">
+        <div class="container">
+            <h2>Game Features</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon icon-lightning">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Optimized for smooth performance across all devices and browsers</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon icon-mobile">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3>Mobile Friendly</h3>
+                    <p>Fully responsive design that works perfectly on smartphones and tablets</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon icon-free">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3>Free to Play</h3>
+                    <p>No downloads, no registration, no hidden fees - just pure gaming fun</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Details -->
+    <section class="bg-gray">
+        <div class="tech-content">
+            <h2>Technical Excellence</h2>
+            <div class="tech-card">
+                <p style="color: #6b7280; line-height: 1.75; margin-bottom: 1.5rem;">
+                    Try2048 leverages cutting-edge web technologies to deliver a premium gaming experience directly in your browser. 
+                    Built with WebGL and optimized JavaScript, the game achieves console-quality graphics and physics while maintaining 
+                    excellent performance across a wide range of devices.
+                </p>
+                <div class="tech-grid">
+                    <div>
+                        <h3 style="font-weight: 600; font-size: 1.125rem; margin-bottom: 0.75rem; color: #111827;">Graphics & Performance</h3>
+                        <ul style="color: #6b7280; list-style: none;">
+                            <li style="margin-bottom: 0.5rem;">• Real-time 3D rendering with WebGL</li>
+                            <li style="margin-bottom: 0.5rem;">• 60 FPS gameplay on modern devices</li>
+                            <li style="margin-bottom: 0.5rem;">• Dynamic lighting and shadows</li>
+                            <li style="margin-bottom: 0.5rem;">• Particle effects and visual enhancements</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="font-weight: 600; font-size: 1.125rem; margin-bottom: 0.75rem; color: #111827;">Compatibility</h3>
+                        <ul style="color: #6b7280; list-style: none;">
+                            <li style="margin-bottom: 0.5rem;">• Works on Chrome, Firefox, Safari, and Edge</li>
+                            <li style="margin-bottom: 0.5rem;">• No plugins or downloads required</li>
+                            <li style="margin-bottom: 0.5rem;">• Responsive design for all screen sizes</li>
+                            <li style="margin-bottom: 0.5rem;">• Keyboard and touch controls supported</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Try2048 Online. All rights reserved.</p>
+        <p class="footer-note">
+            Try2048 is a free online game. Play responsibly and enjoy the thrill of racing!
+        </p>
+    </footer>
+
+    <!-- JavaScript for smooth scrolling and game optimization -->
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Game loading optimization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Log game loading status
+            const iframes = document.querySelectorAll('.game-container iframe');
+            iframes.forEach((iframe, index) => {
+                iframe.addEventListener('load', function() {
+                    console.log(`Game ${index + 1} loaded successfully`);
+                });
+                
+                iframe.addEventListener('error', function() {
+                    console.error(`Game ${index + 1} failed to load`);
+                });
+            });
+            
+            // Add fullscreen button functionality
+            const gameContainers = document.querySelectorAll('.game-container');
+            gameContainers.forEach((container, index) => {
+                const fullscreenBtn = document.createElement('button');
+                fullscreenBtn.innerHTML = '⛶ Fullscreen';
+                fullscreenBtn.style.cssText = 'position: absolute; top: 10px; right: 10px; z-index: 20; background: rgba(0,0,0,0.7); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;';
+                
+                fullscreenBtn.addEventListener('click', function() {
+                    if (container.requestFullscreen) {
+                        container.requestFullscreen();
+                    } else if (container.webkitRequestFullscreen) {
+                        container.webkitRequestFullscreen();
+                    } else if (container.mozRequestFullScreen) {
+                        container.mozRequestFullScreen();
+                    }
+                });
+                
+                container.style.position = 'relative';
+                container.appendChild(fullscreenBtn);
+            });
+        });
+    </script>
+</body>
+</html>
